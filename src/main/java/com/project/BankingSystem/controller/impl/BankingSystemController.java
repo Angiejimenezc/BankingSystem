@@ -10,11 +10,9 @@ import com.project.BankingSystem.models.AccountHolder;
 import com.project.BankingSystem.models.ThirdParty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -89,9 +87,11 @@ public class BankingSystemController implements IBankingSystemController {
         return null;
     }
 
-    @Override
-    public AccountHolder createAccountHolder(AccountHolderDTO accountHolderDTO) {
-        return null;
+    //  Allows admins to add a new account holder to the DB
+    @PostMapping("/create/account-holder")
+    @ResponseStatus(HttpStatus.CREATED)
+    public AccountHolder createAccountHolder(@RequestBody @Valid AccountHolderDTO accountHolderDTO) {
+        return bankingSystemService.createAccountHolder(accountHolderDTO);
     }
 
     @Override
