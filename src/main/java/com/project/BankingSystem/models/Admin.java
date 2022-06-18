@@ -1,26 +1,27 @@
 package com.project.BankingSystem.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
-public class Admin extends User {
+@PrimaryKeyJoinColumn(name = "id")
+public class Admin extends User{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String name;
 
-    public Admin(String name) {
-        super(name);
+    public Admin() {
     }
 
-    public Long getId() {
-        return id;
+    public Admin(String username, String password, Role role, String name) {
+        super(username, password, role);
+        this.name = name;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public String getName() {
+        return name;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 }

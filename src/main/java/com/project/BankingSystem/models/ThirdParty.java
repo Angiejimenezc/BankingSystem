@@ -1,39 +1,37 @@
 package com.project.BankingSystem.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
-public class ThirdParty extends User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String hashedKey;
+@PrimaryKeyJoinColumn(name = "id")
+public class ThirdParty extends User{
+    private String name;
+    private Integer hashedKey;
+
+    public ThirdParty() {
+    }
 
     public ThirdParty(String name) {
-        super(name);
+        setName(name);
+        this.hashedKey = name.hashCode();
     }
 
-    public ThirdParty(String name, String hashedKey) {
-        super(name);
-        this.hashedKey = hashedKey;
+    public ThirdParty(String username, String password, Role role, String name) {
+        super(username, password, role);
+        this.name = name;
+        this.hashedKey = name.hashCode();
     }
 
-    public Long getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getHashedKey() {
+    public Integer getHashedKey() {
         return hashedKey;
     }
 
-    public void setHashedKey(String hashedKey) {
-        this.hashedKey = hashedKey;
-    }
 }

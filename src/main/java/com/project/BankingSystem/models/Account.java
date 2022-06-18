@@ -1,30 +1,57 @@
 package com.project.BankingSystem.models;
 
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import com.project.BankingSystem.classes.Money;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Optional;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Account {
     @Id
+    @NotNull
     private Long id;
-    private BigDecimal balance;
     @Embedded
+    private Money balance;
+    @ManyToOne
+    @JoinColumn(name = "primary_owner_id")
     private AccountHolder primaryOwner;
-    @Embedded
-    private Optional<AccountHolder> secondaryOwner;
+    @ManyToOne
+    @JoinColumn(name = "secondary_owner_id")
+    @AttributeOverrides({
+            @AttributeOverride(name = "id", column = @Column(name = "secondary_owner_id")),
+            @AttributeOverride(name = "name", column = @Column(name = "secondary_owner_name")),
+            @AttributeOverride(name = "birthDate", column = @Column(name = "secondary_owner_name")),
+            @AttributeOverride(name = "primaryAddress", column = @Column(name = "secondary_owner_primary_address")),
+            @AttributeOverride(name = "mailingAddress", column = @Column(name = "secondary_owner_mailing_address"))
+    })
+    private AccountHolder secondaryOwner;
     private BigDecimal penaltyFee;
 
 
-    public Account(Long id, BigDecimal balance, AccountHolder primaryOwner, Optional<AccountHolder> secondaryOwner,
-                   BigDecimal penaltyFee) {
-        this.id = id;
+    public Account() {
+    }
+
+    public Account(Money balance, AccountHolder primaryOwner) {
+        this.id = (long) (Math.random() * 10000000000000000L);
+        this.balance = balance;
+        this.primaryOwner = primaryOwner;
+        this.penaltyFee = new BigDecimal(40);
+    }
+
+    public Account(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner) {
+        this.id = (long) (Math.random() * 10000000000000000L);
         this.balance = balance;
         this.primaryOwner = primaryOwner;
         this.secondaryOwner = secondaryOwner;
-        this.penaltyFee = penaltyFee;
+        this.penaltyFee = new BigDecimal(40);
+    }
+
+    public Account(Long id, AccountHolder primaryOwner) {
+        this.id = id;
+        this.primaryOwner = primaryOwner;
     }
 
     public Long getId() {
@@ -35,11 +62,11 @@ public class Account {
         this.id = id;
     }
 
-    public BigDecimal getBalance() {
+    public Money getBalance() {
         return balance;
     }
 
-    public void setBalance(BigDecimal balance) {
+    public void setBalance(Money balance) {
         this.balance = balance;
     }
 
@@ -47,15 +74,15 @@ public class Account {
         return primaryOwner;
     }
 
-    public void setPrimaryOwner(AccountHolder primaryAccountHolder) {
-        this.primaryOwner = primaryAccountHolder;
+    public void setPrimaryOwner(AccountHolder primaryOwner) {
+        this.primaryOwner = primaryOwner;
     }
 
-    public Optional<AccountHolder> getSecondaryOwner() {
+    public AccountHolder getSecondaryOwner() {
         return secondaryOwner;
     }
 
-    public void setSecondaryOwner(Optional<AccountHolder> secondaryOwner) {
+    public void setSecondaryOwner(AccountHolder secondaryOwner) {
         this.secondaryOwner = secondaryOwner;
     }
 
@@ -67,4 +94,14 @@ public class Account {
         this.penaltyFee = penaltyFee;
     }
 
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", balance=" + balance +
+                ", primaryOwner=" + primaryOwner +
+                ", secondaryOwner=" + secondaryOwner +
+                ", penaltyFee=" + penaltyFee +
+                '}';
+    }
 }

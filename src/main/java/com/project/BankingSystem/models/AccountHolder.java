@@ -2,35 +2,73 @@ package com.project.BankingSystem.models;
 
 import com.project.BankingSystem.classes.Address;
 
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Entity
-public class AccountHolder extends User {
-    @Id
-    private String id;
+@PrimaryKeyJoinColumn(name = "id")
+public class AccountHolder extends User{
     private String name;
     private Date birthDate;
     @Embedded
     private Address primaryAddress;
     @Embedded
-    private Optional<Address> secondaryAddress;
+    @AttributeOverrides({
+            @AttributeOverride(name = "street", column = @Column(name = "mailing_street")),
+            @AttributeOverride(name = "city", column = @Column(name = "mailing_city")),
+            @AttributeOverride(name = "postalCode", column = @Column(name = "mailing_postal_code"))
+    })
+    private Address mailingAddress;
+
+    @OneToMany(mappedBy = "primaryOwner", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Account> accounts;
 
 
-    public AccountHolder(String name) {
-        super(name);
+    public AccountHolder() {
     }
 
-    public AccountHolder(String name, Date birthDate, Address primaryAddress, Optional<Address> secondaryAddress) {
-        super(name);
+    public AccountHolder(String username, String password, Role role, String name, Date birthDate,
+                         Address primaryAddress) {
+        super(username, password, role);
+        this.name = name;
         this.birthDate = birthDate;
         this.primaryAddress = primaryAddress;
-        this.secondaryAddress = secondaryAddress;
     }
 
+    public AccountHolder(String name, Date birthDate, Address primaryAddress, List<Account> accounts) {
+        this.name = name;
+        this.birthDate = birthDate;
+        this.primaryAddress = primaryAddress;
+        this.accounts = accounts;
+    }
+
+    public AccountHolder(String name, Date birthDate, Address primaryAddress, Address mailingAddress, List<Account> accounts) {
+        this.name = name;
+        this.birthDate = birthDate;
+        this.primaryAddress = primaryAddress;
+        this.mailingAddress = mailingAddress;
+        this.accounts = accounts;
+    }
+
+    public AccountHolder(String username, String password, Role role, String name, Date birthDate,
+                         Address primaryAddress, Address mailingAddress, List<Account> accounts) {
+        super(username, password, role);
+        this.name = name;
+        this.birthDate = birthDate;
+        this.primaryAddress = primaryAddress;
+        this.mailingAddress = mailingAddress;
+        this.accounts = accounts;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public Date getBirthDate() {
         return birthDate;
@@ -48,13 +86,16 @@ public class AccountHolder extends User {
         this.primaryAddress = primaryAddress;
     }
 
-    public Optional<Address> getSecondaryAddress() {
-        return secondaryAddress;
+    public Address getMailingAddress() {
+        return mailingAddress;
     }
 
-    public void setSecondaryAddress(Optional<Address> secondaryAddress) {
-        this.secondaryAddress = secondaryAddress;
+    public void setMailingAddress(Address mailingAddress) {
+        this.mailingAddress = mailingAddress;
     }
+
+    public void setAccounts(List<Account> accounts) {
+        this.accounts = accounts;
+    }
+
 }
-
-

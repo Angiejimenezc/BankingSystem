@@ -9,10 +9,14 @@ public class Role {
     private Long id;
     private String name;
 
-    @ManyToOne
+    @OneToOne
     private User user;
 
     public Role() {
+    }
+
+    public Role(String name) {
+        this.name = name;
     }
 
     public Role(String name, User user) {
@@ -34,10 +38,6 @@ public class Role {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public User getUser() {
-        return user;
     }
 
     public void setUser(User user) {

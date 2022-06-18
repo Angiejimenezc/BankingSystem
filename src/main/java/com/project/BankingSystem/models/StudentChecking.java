@@ -1,38 +1,42 @@
 package com.project.BankingSystem.models;
 
+import com.project.BankingSystem.classes.Money;
 import com.project.BankingSystem.enums.Status;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.PrimaryKeyJoinColumn;
 import java.math.BigDecimal;
 import java.util.Optional;
 
 @Entity
-public class StudentChecking extends Account {
-
-    private String secretKey;
+@PrimaryKeyJoinColumn(name = "id")
+public class StudentChecking extends Account{
+    private Integer secretKey;
     @Enumerated(value = EnumType.STRING)
     private Status status;
 
-    public StudentChecking(Long id, BigDecimal balance, AccountHolder primaryOwner,
-                           Optional<AccountHolder> secondaryOwner, BigDecimal penaltyFee) {
-        super(id, balance, primaryOwner, secondaryOwner, penaltyFee);
+    public StudentChecking() {
     }
 
-    public StudentChecking(Long id, BigDecimal balance, AccountHolder primaryOwner,
-                           Optional<AccountHolder> secondaryOwner, BigDecimal penaltyFee, String secretKey,
-                           Status status) {
-        super(id, balance, primaryOwner, secondaryOwner, penaltyFee);
-        this.secretKey = secretKey;
-        this.status = status;
+    public StudentChecking(Money balance, AccountHolder primaryOwner) {
+        super(balance, primaryOwner);
+        this.secretKey = (int) (Math.random()*1000000);
+        this.status = Status.ACTIVE;
+    }
+    public StudentChecking(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner) {
+        super(balance, primaryOwner, secondaryOwner);
+        this.secretKey = (int) (Math.random()*1000000);
+        this.status = Status.ACTIVE;
     }
 
-    public String getSecretKey() {
+
+    public Integer getSecretKey() {
         return secretKey;
     }
 
-    public void setSecretKey(String secretKey) {
+    public void setSecretKey(Integer secretKey) {
         this.secretKey = secretKey;
     }
 
