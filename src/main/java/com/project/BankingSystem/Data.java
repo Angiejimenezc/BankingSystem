@@ -51,6 +51,7 @@ import java.util.Optional;
             roleRepository.save(role);
             roleRepository.save(role1);
             roleRepository.save(role2);
+//  =================== Admin ===================
             adminRepository.save(
                     new Admin(
                             "angie",
@@ -63,21 +64,22 @@ import java.util.Optional;
             Optional<User> user = userRepository.findById(1L);
             role.setUser(user.get());
             roleRepository.save(role);
-            Address address = new Address("Calle blabla", "Horta", "08032");
-            Address address1 = new Address("Calle bleble", "Terrassa", "08005");
+            Address address = new Address("Cll Hort", "Horta", "08032");
+            Address address1 = new Address("Av del Vien to", "Terrassa", "08005");
+//  =================== AccountHolder ===================
             AccountHolder accountHolder = new AccountHolder("jimeca",
                     passwordEncoder.encode("ironhacker"),
-                    role1, "Leo Messi", new Date(120, 7, 14), address);
+                    role1, "Charo Reina", new Date(120, 1, 14), address);
             AccountHolder accountHolder1 = new AccountHolder("anna",
                     passwordEncoder.encode("iepa"),
-                    role1, "Júlia Galceran", new Date(122, 8, 7), address1);
+                    role1, "Anna Caro O", new Date(122, 12, 21), address1);
             accountHolderRepository.save(accountHolder);
             accountHolderRepository.save(accountHolder1);
             user = userRepository.findById(2L);
             role1.setUser(user.get());
             roleRepository.save(role1);
             roleRepository.save(new Role("USER", accountHolder1));
-
+//  =================== ThirdParty ===================
             ThirdParty thirdParty = new ThirdParty("paypal_tp", passwordEncoder.encode("paypal"),
                     role2, "PayPal");
             thirdPartyRepository.save(thirdParty);
@@ -89,7 +91,7 @@ import java.util.Optional;
 //  =================== Accounts ===================
             Checking checking = new Checking(new Money(new BigDecimal(873.45)), accountHolder);
             Checking checking1 = new Checking(new Money(new BigDecimal(1004.82)), accountHolder1);
-            Calendar calendar = Calendar.getInstance();
+
             List<Account> accountList = new ArrayList<>();
             accountList.add(checking);
             accountList.add(checking1);
@@ -103,12 +105,15 @@ import java.util.Optional;
                     role1, "Tester Tests", new Date(100, 1, 12), address1);
             accountHolderRepository.save(accountHolder2);
             roleRepository.save(new Role("USER", accountHolder2));
+
             StudentChecking studentChecking = new StudentChecking(new Money(new BigDecimal(358.12)), accountHolder2);
             accountList.add(studentChecking);
             studentCheckingRepository.save(studentChecking);
+
             Savings savings = new Savings(new Money(new BigDecimal(1304.76)), accountHolder2);
             accountList.add(savings);
             savingsRepository.save(savings);
+
             CreditCard creditCard = new CreditCard(new Money(new BigDecimal(139.00)), accountHolder2);
             accountList.add(creditCard);
             creditCardRepository.save(creditCard);

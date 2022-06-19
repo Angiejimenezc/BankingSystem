@@ -3,6 +3,7 @@ package com.project.BankingSystem.controller.dto;
 import com.project.BankingSystem.classes.Address;
 import com.project.BankingSystem.models.Role;
 
+import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;

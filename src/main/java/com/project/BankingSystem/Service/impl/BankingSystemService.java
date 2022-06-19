@@ -124,7 +124,7 @@ public class BankingSystemService {
                     account.get().getBalance().getCurrency());
             account.get().setBalance(balance);
             accountRepository.save(account.get());
-           // fraudDetector(id, quantity);
+
         } else throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found.");
     }
 
@@ -136,7 +136,7 @@ public class BankingSystemService {
                     account.get().getBalance().getCurrency());
             account.get().setBalance(balance);
             accountRepository.save(account.get());
-            //fraudDetector(id, quantity);
+
         } else throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found.");
     }
 
@@ -151,8 +151,7 @@ public class BankingSystemService {
                     accountRepository.save(account.get());
                     targetAccount.get().setBalance(new Money(targetAccount.get().getBalance().increaseAmount(amount)));
                     accountRepository.save(targetAccount.get());
-                   // fraudDetector(id, amount);
-                } else throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not enough funds");
+                    } else throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not enough funds");
             } else throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Target account not found.");
         } else throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found");
     }
@@ -170,7 +169,7 @@ public class BankingSystemService {
                     account.get().getBalance().getCurrency());
             account.get().setBalance(balance);
             accountRepository.save(account.get());
-           // fraudDetector(id, amount);
+
         } else throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found.");
     }
 
@@ -182,7 +181,6 @@ public class BankingSystemService {
                     account.get().getBalance().getCurrency());
             account.get().setBalance(balance);
             accountRepository.save(account.get());
-           // fraudDetector(id, amount);
         } else throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found.");
     }
 
@@ -243,37 +241,6 @@ public class BankingSystemService {
             return creditCard.get();
         } else throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found");
     }
-/*
-    public void fraudDetector(Long id, BigDecimal amount) {
-        Optional<Transactions> transactions = transactionsRepository.findById(id);
-        Timestamp ts = new Timestamp(System.currentTimeMillis());
-        if (transactions.isPresent()) {
-            List<Transaction> transactionList = transactions.get().getTransactions();
-            Transaction transaction = new Transaction(amount, ts);
-            transaction.setTransactions(transactions.get());
-            transactionRepository.save(transaction);
-            transactionList.add(transaction);
-            transactions.get().setTransactions(transactionList);
-            transactionsRepository.save(transactions.get());
-            if (transactionList.size() > 1) {
-                       if (transactionList.get(transactionList.size()-2).getTimestamp().getHours()-ts.getHours() == 0 &&
-                        transactionList.get(transactionList.size()-2).getTimestamp().getMinutes()-ts.getMinutes() == 0 &&
-                        transactionList.get(transactionList.size()-2).getTimestamp().getSeconds()-ts.getSeconds() >= -1) {
-                    changeStatusByAccountType(id);
-                }
-            }
-        } else {
-            List<Transaction> transactionList = new ArrayList<>();
-            Transaction transaction = new Transaction(amount, ts);
-            transactionList.add(transaction);
-            transactionRepository.save(transaction);
-            Transactions transactions1 = new Transactions(id, transactionList);
-            transactionsRepository.save(transactions1);
-            transaction.setTransactions(transactions1);
-            transactionRepository.save(transaction);
-        }
-    }
-*/
     public Object accessAccount(Integer secretKey) {
         return findAccountType(secretKey);
     }
@@ -281,6 +248,5 @@ public class BankingSystemService {
     public Object accessAccountAdmin(Long id) {
         return findAccountTypeId(id);
     }
-
 
 }
