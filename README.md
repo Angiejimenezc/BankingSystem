@@ -1,6 +1,8 @@
 # BankingSystem
 
-![ModelBS]src/main/resources/static/model/ModelBS.png
+![Model diagram](./src/main/resources/static/model/BankingSystemModel.png)
+
+
 
 
 
