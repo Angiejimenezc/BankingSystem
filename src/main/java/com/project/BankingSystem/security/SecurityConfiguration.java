@@ -1,5 +1,6 @@
 package com.project.BankingSystem.security;
 
+import com.project.BankingSystem.Service.impl.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,24 +15,27 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfiguration {
+
+
     @Autowired
-    private CustomUserDetails userDetailsService;
+    private CustomUserDetailsService userDetailsService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.httpBasic();
-        http.csrf().disable().authorizeRequests()
+        http.httpBasic();
+        http.authorizeRequests()
                 .mvcMatchers("/get/**", "/transfer/{id}/{targetId}", "/access-account/{secretKey}").hasRole("USER")
                 .mvcMatchers("/get/**", "/credit/account/{id}", "/debit/account/{id}", "/create/**",
                         "/account-holder/{id}", "/show-accounts", "/get/checking-balance",
