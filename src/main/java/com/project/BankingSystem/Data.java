@@ -11,8 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -57,7 +56,7 @@ import java.util.Optional;
                             "angie",
                             passwordEncoder.encode("admin"),
                             role,
-                            "Angie Jimenex"
+                            "Angie Jimenez"
                     )
             );
 //      Trying different ways to persist the data.
@@ -68,10 +67,10 @@ import java.util.Optional;
             Address address1 = new Address("Calle bleble", "Terrassa", "08005");
             AccountHolder accountHolder = new AccountHolder("jimeca",
                     passwordEncoder.encode("ironhacker"),
-                    role1, "Leo Messi", new Date(93, 7, 14), address);
+                    role1, "Leo Messi", new Date(120, 7, 14), address);
             AccountHolder accountHolder1 = new AccountHolder("anna",
                     passwordEncoder.encode("iepa"),
-                    role1, "Júlia Galceran", new Date(95, 8, 7), address1);
+                    role1, "Júlia Galceran", new Date(122, 8, 7), address1);
             accountHolderRepository.save(accountHolder);
             accountHolderRepository.save(accountHolder1);
             user = userRepository.findById(2L);
@@ -90,6 +89,7 @@ import java.util.Optional;
 //  =================== Accounts ===================
             Checking checking = new Checking(new Money(new BigDecimal(873.45)), accountHolder);
             Checking checking1 = new Checking(new Money(new BigDecimal(1004.82)), accountHolder1);
+            Calendar calendar = Calendar.getInstance();
             List<Account> accountList = new ArrayList<>();
             accountList.add(checking);
             accountList.add(checking1);
@@ -99,7 +99,8 @@ import java.util.Optional;
             accountHolderRepository.save(accountHolder);
             accountHolderRepository.save(accountHolder1);
             AccountHolder accountHolder2 = new AccountHolder("tester", passwordEncoder.encode("testing"),
-                    role1, "Tester Tests", new Date(120, 2, 3), address1);
+
+                    role1, "Tester Tests", new Date(100, 1, 12), address1);
             accountHolderRepository.save(accountHolder2);
             roleRepository.save(new Role("USER", accountHolder2));
             StudentChecking studentChecking = new StudentChecking(new Money(new BigDecimal(358.12)), accountHolder2);

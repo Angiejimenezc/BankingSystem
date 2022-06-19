@@ -15,9 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class BankingSystemService {
@@ -102,6 +100,7 @@ public class BankingSystemService {
                 // st checking
                 return studentCheckingRepository.save(new StudentChecking(new Money(quantity), accountHolder.get()));
             } else if (checker == 24) {
+
                 if (ldt.getMonthValue() >= accountHolder.get().getBirthDate().getMonth()+1
                         && ldt.getDayOfMonth() >= accountHolder.get().getBirthDate().getDate()) {
                     // st checking
@@ -125,7 +124,7 @@ public class BankingSystemService {
                     account.get().getBalance().getCurrency());
             account.get().setBalance(balance);
             accountRepository.save(account.get());
-            fraudDetector(id, quantity);
+           // fraudDetector(id, quantity);
         } else throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found.");
     }
 
@@ -137,7 +136,7 @@ public class BankingSystemService {
                     account.get().getBalance().getCurrency());
             account.get().setBalance(balance);
             accountRepository.save(account.get());
-            fraudDetector(id, quantity);
+            //fraudDetector(id, quantity);
         } else throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found.");
     }
 
@@ -152,7 +151,7 @@ public class BankingSystemService {
                     accountRepository.save(account.get());
                     targetAccount.get().setBalance(new Money(targetAccount.get().getBalance().increaseAmount(amount)));
                     accountRepository.save(targetAccount.get());
-                    fraudDetector(id, amount);
+                   // fraudDetector(id, amount);
                 } else throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not enough funds");
             } else throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Target account not found.");
         } else throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found");
@@ -171,7 +170,7 @@ public class BankingSystemService {
                     account.get().getBalance().getCurrency());
             account.get().setBalance(balance);
             accountRepository.save(account.get());
-            fraudDetector(id, amount);
+           // fraudDetector(id, amount);
         } else throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found.");
     }
 
@@ -183,7 +182,7 @@ public class BankingSystemService {
                     account.get().getBalance().getCurrency());
             account.get().setBalance(balance);
             accountRepository.save(account.get());
-            fraudDetector(id, amount);
+           // fraudDetector(id, amount);
         } else throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found.");
     }
 
@@ -244,7 +243,7 @@ public class BankingSystemService {
             return creditCard.get();
         } else throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found");
     }
-
+/*
     public void fraudDetector(Long id, BigDecimal amount) {
         Optional<Transactions> transactions = transactionsRepository.findById(id);
         Timestamp ts = new Timestamp(System.currentTimeMillis());
@@ -257,7 +256,7 @@ public class BankingSystemService {
             transactions.get().setTransactions(transactionList);
             transactionsRepository.save(transactions.get());
             if (transactionList.size() > 1) {
-                if (transactionList.get(transactionList.size()-2).getTimestamp().getHours()-ts.getHours() == 0 &&
+                       if (transactionList.get(transactionList.size()-2).getTimestamp().getHours()-ts.getHours() == 0 &&
                         transactionList.get(transactionList.size()-2).getTimestamp().getMinutes()-ts.getMinutes() == 0 &&
                         transactionList.get(transactionList.size()-2).getTimestamp().getSeconds()-ts.getSeconds() >= -1) {
                     changeStatusByAccountType(id);
@@ -274,7 +273,7 @@ public class BankingSystemService {
             transactionRepository.save(transaction);
         }
     }
-
+*/
     public Object accessAccount(Integer secretKey) {
         return findAccountType(secretKey);
     }
