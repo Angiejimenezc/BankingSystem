@@ -1,6 +1,5 @@
 # BankingSystem
 
----
 Made with this specifications:
 
 In this project, you will be building a banking system. You should meet all of the requirements below:
