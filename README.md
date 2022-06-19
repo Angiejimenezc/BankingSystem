@@ -1,12 +1,6 @@
 # BankingSystem
 
-![Model diagram](./src/main/resources/static/model/BankingSystemModel.png)
-
-
-
-
-
-
+---
 Made with this specifications:
 
 In this project, you will be building a banking system. You should meet all of the requirements below:
@@ -119,3 +113,5 @@ AccountHolders
         
     Transactions  
         There is also a repository of Transactions which is conformed by account ids and every Transaction done by that account.
+        ---
+![Model diagram](./src/main/resources/static/BankingSystemModel.png)
